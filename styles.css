@@ -10217,62 +10217,45 @@ body:has(.live-chat-sidebar) .relay-status-dropdown {
     color: white !important;
     fill: white !important;
 }
-/* ===== DESKTOP SIDEBAR WIDER FIX ===== */
+/* ===== DESKTOP DEFAULT SIDEBAR WIDER FIX ===== */
 @media (min-width: 769px) {
-    /* Make expanded sidebar wider */
-    .sidebar.expanded {
-        width: 300px !important; /* Increased from 240px */
+    /* Make the default (collapsed) sidebar wider */
+    .sidebar {
+        width: 90px !important; /* Increased from 72px */
+        min-width: 90px !important;
     }
     
-    /* Adjust main content padding to account for wider sidebar */
+    /* Adjust container padding to match new width */
     .container {
-        padding-left: 72px; /* Keep collapsed sidebar space */
+        padding-left: 90px !important; /* Match new sidebar width */
     }
     
-    /* When sidebar is expanded, adjust content positioning */
+    /* Optional: Make icons slightly larger to fill space */
+    .sidebar:not(.expanded) .sidebar-icon {
+        width: 24px !important;
+        height: 24px !important;
+    }
+    
+    /* Optional: Add tooltip-like behavior on hover */
+    .sidebar:not(.expanded) .sidebar-item:hover .sidebar-label {
+        position: absolute;
+        left: 90px;
+        background: var(--bg-secondary);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        white-space: nowrap;
+        z-index: 100;
+        box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    }
+}
+
+/* Keep your expanded styles for when sidebar is toggled */
+@media (min-width: 769px) {
+    .sidebar.expanded {
+        width: 300px !important;
+    }
+    
     body:has(.sidebar.expanded) .container {
-        padding-left: 300px; /* Match expanded sidebar width */
-    }
-    
-    /* Make sidebar items more readable with more space */
-    .sidebar.expanded .sidebar-item {
-        padding: 0.75rem 1.25rem !important;
-        font-size: 1rem !important;
-    }
-    
-    /* Give more space for labels */
-    .sidebar.expanded .sidebar-label {
-        margin-left: 16px !important;
-        white-space: normal !important; /* Allow text to wrap if needed */
-        line-height: 1.3 !important;
-    }
-    
-    /* Make section titles more visible */
-    .sidebar.expanded .sidebar-section-title {
-        padding: 0.5rem 1.25rem !important;
-        font-size: 0.85rem !important;
-    }
-    
-    /* Fix for long text links like "Camp Creek Market" */
-    .sidebar.expanded a[href="https://t.me/campcreekmarket"] .sidebar-label,
-    .sidebar.expanded a[href="https://t.me/warehousejobz"] .sidebar-label,
-    .sidebar.expanded a[href="https://t.me/textforajob"] .sidebar-label {
-        white-space: normal !important;
-        word-break: break-word !important;
-        max-width: 220px !important;
-    }
-    
-    /* Adjust footer for wider sidebar */
-    .sidebar.expanded .sidebar-footer {
-        padding: 1rem 1.25rem !important;
-    }
-    
-    /* Make footer links more readable */
-    .sidebar.expanded .sidebar-footer-links {
-        gap: 0.75rem !important;
-    }
-    
-    .sidebar.expanded .sidebar-footer-link {
-        font-size: 0.85rem !important;
+        padding-left: 300px !important;
     }
 }
