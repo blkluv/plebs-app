@@ -10057,3 +10057,87 @@ body:has(.live-chat-sidebar) .relay-status-dropdown {
         font-size: 0.75rem;
     }
 }
+/* ===== FIXES FOR DESKTOP SIDEBAR & MOBILE ICONS ===== */
+
+/* Desktop: Wider sidebar */
+@media (min-width: 769px) {
+    .sidebar {
+        width: 280px !important;
+        min-width: 280px !important;
+        padding: 1.5rem 1rem !important;
+    }
+    
+    .sidebar-item {
+        font-size: 1rem !important;
+        padding: 0.75rem 1rem !important;
+    }
+    
+    /* Fix truncated text */
+    a[href="https://t.me/campcreekmarket"] {
+        font-size: 0.9rem !important;
+    }
+}
+
+/* Mobile: Fix blacked out icons */
+@media (max-width: 768px) {
+    /* Force all icons to use text color */
+    svg:not(.no-fix),
+    .emoji,
+    [class*="icon"] svg,
+    [class*="Icon"] {
+        color: var(--text-primary) !important;
+        fill: currentColor !important;
+        stroke: none !important;
+    }
+    
+    /* Fix sidebar background */
+    .sidebar.active {
+        background: var(--bg-secondary) !important;
+    }
+    
+    /* Fix all header buttons */
+    .menu-toggle,
+    .theme-toggle,
+    .notification-toggle,
+    .user-btn,
+    .search-bar button {
+        background: var(--bg-primary) !important;
+        border-color: var(--border) !important;
+        color: var(--text-primary) !important;
+    }
+    
+    /* Fix upload button */
+    .upload-btn {
+        background: var(--accent) !important;
+        color: white !important;
+    }
+    
+    .upload-btn svg {
+        color: white !important;
+        fill: white !important;
+    }
+    
+    /* Ensure hover states work */
+    .sidebar-item:hover {
+        background: var(--accent) !important;
+        color: white !important;
+    }
+    
+    .sidebar-item:hover svg {
+        color: white !important;
+    }
+    
+    /* Fix any potential black backgrounds on icons */
+    .sidebar-item svg,
+    .menu-toggle svg,
+    .theme-toggle svg,
+    .notification-toggle svg,
+    .user-btn svg {
+        background: transparent !important;
+    }
+}
+
+/* Universal fix for emoji display */
+.emoji {
+    font-style: normal !important;
+}
