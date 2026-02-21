@@ -1,28 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JOBTUBE.FUN - Decentralized Video Platform</title>
-    <meta name="description"
-        content="JOBTUBE.FUN is a censorship-resistant, decentralized video platform powered by the Nostr social protocol for job training and industry videos">
+    <meta name="description" content="JOBTUBE.FUN is a censorship-resistant, decentralized video platform powered by the Nostr social protocol">
 
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="JOBTUBE.FUN - Watch Videos on Nostr">
-    <meta property="og:description"
-        content="JOBTUBE.FUN is a censorship-resistant, decentralized video platform powered by the Nostr social protocol for job training and industry videos">
-    <meta property="og:image" content="./images/jobtube-og.png">
+    <meta property="og:description" content="JOBTUBE.FUN is a censorship-resistant, decentralized video platform powered by the Nostr social protocol">
+    <meta property="og:image" content="./images/plebs-og.png">
     <meta property="og:url" content="https://jobtube.fun">
     <meta property="og:type" content="website">
-    <link rel="icon" href="./images/jobtube-icon.png" type="image/png">
+    <link rel="icon" href="./images/plebs-icon.png" type="image/png">
     <link rel="canonical" href="https://jobtube.fun">
     <meta name="theme-color" content="#BF40BF">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="JOBTUBE.FUN">
-    <link rel="apple-touch-icon" href="./images/jobtube-icon.png">
+    <link rel="apple-touch-icon" href="./images/plebs-icon.png">
 
     <!-- Inline theme script to prevent flash of wrong theme - CRITICAL -->
     <script>
@@ -37,15 +34,13 @@
         })();
     </script>
 
-    <!-- JobTube Styling -->
+    <!-- Plebs Styling -->
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
             --bg-primary: #000000;
             --bg-secondary: #111111;
             --bg-tertiary: #222222;
-            --brand-color: #BF40BF;
-            --brand-gradient: linear-gradient(135deg, #BF40BF, #9b30b0);
         }
         
         body.dark-theme {
@@ -63,13 +58,6 @@
         
         .video-grid {
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        }
-        
-        .logo {
-            background: var(--brand-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
         }
         
         @media (max-width: 768px) {
@@ -146,26 +134,55 @@
         .video-meta {
             font-size: 0.8rem;
         }
-        
-        /* Job tag styling */
-        .sidebar-item[data-job-tag] .sidebar-label {
-            margin-left: 8px;
+
+        /* Category styling - FIXED */
+        .video-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
         }
         
-        .trending-tab.active {
-            background: var(--brand-gradient);
+        .category-tag {
+            background: var(--accent);
             color: white;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        .upload-btn {
-            background: var(--brand-gradient);
+        .nsfw-badge {
+            background: #ff4444;
             color: white;
-            border: none;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
         
-        .upload-btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        .trending-badge {
+            background: #ff6b6b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+        
+        .shorts-badge {
+            background: #4ecdc4;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: inline-block;
         }
     </style>
 </head>
@@ -173,6 +190,12 @@
 <body>
     <header>
         <div class="header-content">
+            <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                </svg>
+            </button>
+
             <a href="#/" class="logo">
                 <img src="./images/plebs-icon.png" alt="JOBTUBE.FUN" width="24" height="24">
                 JOBTUBE.FUN
@@ -184,20 +207,54 @@
             </div>
 
             <div class="header-actions">
-                <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
-                <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">☀️</button>
-                <button class="notification-toggle" onclick="loadNotifications()" title="Notifications" id="notificationBtn">🔔</button>
-                <button class="notification-toggle" onclick="showSettingsModal()" title="Settings">⚙️</button>
-                <button class="upload-btn" onclick="showUploadModal()">🆙 UPLOAD</button>
+                <button class="notification-toggle" onclick="loadNotifications()" title="Notifications" id="notificationBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <span class="notification-badge" id="notificationBadge" style="display: none;"></span>
+                </button>
+
+                <button class="notification-toggle" onclick="showSettingsModal()" title="Settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+                    </svg>
+                </button>
+
+                <button class="upload-btn create-btn" onclick="showCreateModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"
+                        style="display: inline-block; vertical-align: middle;">
+                        <path
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z" />
+                    </svg>
+                    <span class="btn-text">Create</span>
+                </button>
 
                 <!-- User Menu -->
                 <div class="user-menu" id="userMenu">
                     <button class="user-btn" id="userBtn" onclick="toggleUserMenu()">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" id="userIcon">
+                            <path
+                                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
                         <img id="userAvatar" src="" alt="User" style="display: none;">
-                        <span id="userIcon">👤</span>
                     </button>
                     <div class="user-dropdown" id="userDropdown">
-                        <button onclick="handleLogout()">✌🏾 LOGOUT</button>
+                        <button onclick="viewOwnProfile()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg>
+                            <span>View Profile</span>
+                        </button>
+                        <button onclick="handleLogout()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
+                            </svg>
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -208,115 +265,44 @@
 
     <div class="container">
         <aside class="sidebar" id="sidebar">
-            <a href="#/" class="sidebar-item active" title="Home">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                </svg>
-                <span class="sidebar-label">HOME</span>
-            </a>
-
-            <!-- External Links -->
-            <a href="https://t.me/atl5d" class="sidebar-item" target="_blank" title="ATL5D">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14.5v-4l-3 2.5 3-6.5v4l3-2.5-3 6.5z"/>
-                </svg>
-                <span class="sidebar-label">ATL5D</span>
-            </a>
-            
-            <a href="https://t.me/warehousejobz" class="sidebar-item" target="_blank" title="WarehouseJobs">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5s-.96.06-1.41.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09c-.05.33-.09.66-.09 1v1H4v2h2v1c0 .34.04.67.09 1H4v2h2.81c1.04 1.79 2.97 3 5.19 3s4.15-1.21 5.19-3H20v-2h-2.09c.05-.33.09-.66.09-1v-1h2v-2h-2v-1c0-.34-.04-.67-.09-1H20V8z"/>
-                </svg>
-                <span class="sidebar-label">WarehouseJobs</span>
-            </a>
-            
-            <a href="https://t.me/textforajob" class="sidebar-item" target="_blank" title="TextForAJob">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
-                </svg>
-                <span class="sidebar-label">TextForAJob</span>
-            </a>
-            
-            <a href="https://shop.atl5d.com" class="sidebar-item" target="_blank" title="SHOP">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
-                </svg>
-                <span class="sidebar-label">SHOP</span>
-            </a>
-
-            <hr style="border: none; border-top: 1px solid var(--border); margin: 1rem 0;">
-            
-            <div style="padding: 0 1rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">
-                JOB CATEGORIES
+            <div class="sidebar-header-expanded">
+                <button class="menu-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
+                    </svg>
+                </button>
+                <a href="#/" class="logo" onclick="closeSidebarOnNavigate()">
+                    <img src="./images/plebs-icon.png" alt="JOBTUBE.FUN" width="24" height="24">
+                    JOBTUBE.FUN
+                </a>
             </div>
-
-            <!-- JOB TAGS - Updated with emoji only labels -->
-            <a href="#/tag/warehouse" class="sidebar-item" title="Warehouse Jobs">
-                <span class="sidebar-label">🏬 WAREHOUSE</span>
-            </a>
+            <a href="#/" class="sidebar-item active">🌞 HOME</a>
+            <a href="https://t.me/atl5d" class="sidebar-item" target="_blank">🅰️ ATL5D</a>
+            <a href="https://t.atl5d.com" class="sidebar-item" target="_blank">🌴 ATL5D</a>
+            <a href="https://t.me/campcreekmarket" class="sidebar-item" target="_blank">🛣️ Camp Creek Market</a>
+            <a href="https://t.me/warehousejobz" class="sidebar-item" target="_blank">📦 WarehouseJobs</a>
+            <a href="https://t.me/textforajob" class="sidebar-item" target="_blank">💬 TextForAJob</a>
+            <a href="#/following" class="sidebar-item">🪶 TRIBE</a>
+            <a href="#/my-videos" class="sidebar-item">🗂️ MY VIDEOS</a>
+            <a href="#/liked" class="sidebar-item">💖 LOVED</a>
             
-            <a href="#/tag/delivery" class="sidebar-item" title="Delivery Jobs">
-                <span class="sidebar-label">🚚 DELIVERY</span>
-            </a>
-            
-            <a href="#/tag/dental" class="sidebar-item" title="Dental Jobs">
-                <span class="sidebar-label">🦷 DENTAL</span>
-            </a>
-            
-            <a href="#/tag/healthcare" class="sidebar-item" title="Healthcare Jobs">
-                <span class="sidebar-label">🏥 HEALTHCARE</span>
-            </a>
-            
-            <a href="#/tag/hospitality" class="sidebar-item" title="Hospitality Jobs">
-                <span class="sidebar-label">🍽️ HOSPITALITY</span>
-            </a>
-            
-            <a href="#/tag/construction" class="sidebar-item" title="Construction Jobs">
-                <span class="sidebar-label">🏗️ CONSTRUCTION</span>
-            </a>
-            
-            <a href="#/tag/retail" class="sidebar-item" title="Retail Jobs">
-                <span class="sidebar-label">🛍️ RETAIL</span>
-            </a>
-            
-            <a href="#/tag/callcenter" class="sidebar-item" title="Call Center Jobs">
-                <span class="sidebar-label">🎧 CALL CENTER</span>
-            </a>
-            
-            <a href="#/tag/security" class="sidebar-item" title="Security Jobs">
-                <span class="sidebar-label">🛡️ SECURITY</span>
-            </a>
-            
-            <a href="#/tag/driver" class="sidebar-item" title="Driver Jobs">
-                <span class="sidebar-label">🚗 PICKUP</span>
-            </a>
-
-            <!-- My Videos Section -->
             <hr style="border: none; border-top: 1px solid var(--border); margin: 1rem 0;">
+            <div style="padding: 0 1rem; margin-bottom: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">TOPICS</div>
             
-            <a href="#/following" class="sidebar-item" title="Following">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
-                </svg>
-                <span class="sidebar-label">TRIBE</span>
-            </a>
-            
-            <a href="#/my-videos" class="sidebar-item" title="My Videos">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14h-2v-4H8v-2h2V7h2v4h2v2h-2v4z"/>
-                </svg>
-                <span class="sidebar-label">MY VIDEOS</span>
-            </a>
-            
-            <a href="#/liked" class="sidebar-item" title="Liked Videos">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="sidebar-icon">
-                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-                </svg>
-                <span class="sidebar-label">LOVED</span>
-            </a>
+            <a href="https://shop.atl5d.com" class="sidebar-item" target="_blank">🛍️ SHOP</a>
+            <a href="#/tag/warehouse" class="sidebar-item">🏬 WAREHOUSE</a>
+            <a href="#/tag/delivery" class="sidebar-item">🚚 DELIVERY</a>
+            <a href="#/tag/dental" class="sidebar-item">🦷 DENTAL</a>
+            <a href="#/tag/healthcare" class="sidebar-item">🏥 HEALTHCARE</a>
+            <a href="#/tag/hospitality" class="sidebar-item">🍽️ HOSPITALITY</a>
+            <a href="#/tag/construction" class="sidebar-item">🏗️ CONSTRUCTION</a>
+            <a href="#/tag/retail" class="sidebar-item">🛍️ RETAIL</a>
+            <a href="#/tag/callcenter" class="sidebar-item">🎧 CALL CENTER</a>
+            <a href="#/tag/security" class="sidebar-item">🛡️ SECURITY</a>
+            <a href="#/tag/driver" class="sidebar-item">🚗 PICKUP</a>
 
             <div style="margin-top: auto; padding: 1rem; text-align: center; font-size: 0.875rem; color: var(--text-secondary);">
-                <a href="https://tiktok.com/@textforrent" target="_blank" style="color: var(--brand-color); text-decoration: none;">@TextForRent on TikTok</a>
+                <a href="https://tiktok.com/@atl5d" target="_blank" style="color: var(--accent); text-decoration: none;">@ATL5D on TikTok</a>
             </div>
         </aside>
 
@@ -325,34 +311,200 @@
         </main>
     </div>
 
+    <!-- Create Modal (Choose between Video or Short) -->
+    <div class="modal" id="createModal">
+        <div class="modal-content create-modal">
+            <div class="modal-header">
+                <h2>Create</h2>
+                <button class="close-modal" onclick="hideCreateModal()" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="create-options">
+                <button class="create-option upload-video" onclick="hideCreateModal(); showUploadModal('video');">
+                    <div class="create-option-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9 8l7 4-7 4V8z"/>
+                        </svg>
+                    </div>
+                    <div class="create-option-text">
+                        <span class="create-option-title">Upload Video</span>
+                        <span class="create-option-desc">Upload a video from your device</span>
+                    </div>
+                </button>
+
+                <button class="create-option upload-short" onclick="hideCreateModal(); showUploadModal('short');">
+                    <div class="create-option-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="2" width="12" height="20" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M10 8l6 4-6 4V8z"/>
+                        </svg>
+                    </div>
+                    <div class="create-option-text">
+                        <span class="create-option-title">Create Short</span>
+                        <span class="create-option-desc">Upload a vertical video (under 60s)</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div class="modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-back-btn" onclick="backToCreateModal()" title="Back to Create">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </button>
+                <h2 id="uploadModalTitle">Upload Video</h2>
+                <button class="close-modal" onclick="hideUploadModal()" aria-label="Close">&times;</button>
+            </div>
+
+            <form class="upload-form" id="uploadForm">
+                <!-- Video Upload Section -->
+                <div class="form-group">
+                    <label id="videoFileLabel">Video File <span class="required-indicator">*</span></label>
+
+                    <div class="file-upload" id="fileUpload" onclick="document.getElementById('videoFile').click()">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.5;">
+                            <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                        </svg>
+                        <p>Click to select video or drag and drop</p>
+                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;" id="uploadHint">
+                            MP4, AVI, MOV, etc (max 2GB input, will compress to <100MB)</p>
+                    </div>
+                    <input type="file" id="videoFile" accept="video/*" style="display: none;">
+                    <input type="hidden" id="uploadType" value="video">
+
+                    <!-- Video Upload Progress -->
+                    <div class="upload-item-progress" id="videoUploadProgress" style="display: none;">
+                        <div class="upload-item-header">
+                            <span class="upload-item-name" id="videoFileName">video.mp4</span>
+                            <span class="upload-item-status" id="videoUploadStatus">Preparing...</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="videoProgressFill" style="width: 0%"></div>
+                        </div>
+                        <div class="upload-item-details" id="videoUploadDetails"></div>
+                        <div class="server-status" id="videoServerStatus"></div>
+
+                        <!-- Video Preview -->
+                        <div class="upload-preview" id="videoPreview" style="display: none;">
+                            <video id="videoPreviewPlayer" controls playsinline></video>
+                            <button type="button" class="preview-delete-btn" onclick="deleteVideoUpload()" title="Remove and upload different video">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thumbnail Upload Section -->
+                <div class="form-group">
+                    <label>Thumbnail <span style="font-weight: normal; color: var(--text-secondary);">(optional)</span></label>
+                    <div class="file-upload thumbnail-upload" id="thumbnailUpload" onclick="document.getElementById('thumbnailFile').click()">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="opacity: 0.5;">
+                            <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+                        </svg>
+                        <p>Click to select or auto-generate from video</p>
+                    </div>
+                    <input type="file" id="thumbnailFile" accept="image/*" style="display: none;">
+
+                    <!-- Thumbnail Upload Progress -->
+                    <div class="upload-item-progress" id="thumbnailUploadProgress" style="display: none;">
+                        <div class="upload-item-header">
+                            <span class="upload-item-name" id="thumbnailFileName">thumbnail.jpg</span>
+                            <span class="upload-item-status" id="thumbnailUploadStatus">Uploading...</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="thumbnailProgressFill" style="width: 0%"></div>
+                        </div>
+                        <div class="server-status" id="thumbnailServerStatus"></div>
+
+                        <!-- Thumbnail Preview -->
+                        <div class="upload-preview" id="thumbnailPreview" style="display: none;">
+                            <img id="thumbnailPreviewImage" alt="Thumbnail preview">
+                            <button type="button" class="preview-delete-btn" onclick="deleteThumbnailUpload()" title="Remove and upload different thumbnail">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                </svg>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Title <span class="required-indicator">*</span></label>
+                    <input type="text" id="videoTitle" placeholder="Enter video title" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description <span style="font-weight: normal; color: var(--text-secondary);">(optional)</span></label>
+                    <textarea id="videoDescription" placeholder="Tell viewers about your video"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags (comma separated) <span class="required-indicator">*</span></label>
+                    <input type="text" id="videoTags" placeholder="warehouse, delivery, forklift" required>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="nsfwCheckbox">
+                        <label for="nsfwCheckbox">Mark as NSFW (18+)</label>
+                    </div>
+                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        Content containing adult material should be marked as NSFW
+                    </p>
+                </div>
+
+                <div class="upload-actions" style="display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;">
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="button" class="btn-secondary" id="saveDraftButton" onclick="saveCurrentAsDraft()" style="flex: 1;">
+                            Save as Draft
+                        </button>
+                        <button type="submit" class="upload-btn" id="publishButton" disabled style="flex: 2;">
+                            <span id="publishButtonText">Select a video to upload</span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Login Modal -->
     <div class="modal" id="loginModal">
         <div class="modal-content login-modal">
             <div class="modal-header">
                 <h2>Login with Nostr</h2>
-                <button class="close-modal" onclick="hideLoginModal()">&times;</button>
+                <button class="close-modal" onclick="hideLoginModal()" aria-label="Close">&times;</button>
             </div>
+
             <div class="login-options">
                 <button class="login-option" onclick="loginWithExtension()">
                     🔌 <span>Login with Extension</span>
                     <p>Use Alby, nos2x, or other Nostr browser extensions</p>
                 </button>
+
                 <button class="login-option" onclick="showConnectModal()">
                     🔗 <span>Nostr Connect</span>
                     <p>Connect with remote signers like Amber, nsec.app</p>
                 </button>
+
                 <button class="login-option" onclick="showPrivateKeyModal()">
                     🔑 <span>Private Key</span>
                     <p>Enter your nsec or hex private key (local only)</p>
                 </button>
-                <button class="login-option" onclick="showReadOnlyModal()">
-                    👁️ <span>Read-Only</span>
-                    <p>View content with your public key (npub)</p>
-                </button>
+
                 <div class="login-divider"><span>New to Nostr?</span></div>
+
                 <button class="login-option signup" onclick="showSignupModal()">
                     🆕 <span>Create Account</span>
-                    <p>Get started with a new Nostr identity</p>
+                    <p>Get started with a new Nostr identity to use on JOBTUBE.FUN</p>
                 </button>
             </div>
         </div>
@@ -363,43 +515,58 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Connect with Nostr</h2>
-                <button class="close-modal" onclick="hideConnectModal()">&times;</button>
+                <button class="close-modal" onclick="hideConnectModal()" aria-label="Close">&times;</button>
             </div>
+
             <div class="connect-steps">
                 <div class="connect-step">
                     <h3>Option 1: Use this connection string</h3>
-                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">Copy and paste this into any NIP-46 compatible app (nsec.app, Amber, etc.)</p>
-                    <textarea id="nostrConnectURI" readonly style="width: 100%; padding: 0.75rem; margin: 0.5rem 0; font-size: 0.875rem; height: 100px; resize: none; background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border); border-radius: 8px; word-break: break-all;"></textarea>
+                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">
+                        Copy and paste this into any NIP-46 compatible app (nsec.app, Amber, etc.)
+                    </p>
+                    <textarea id="nostrConnectURI" readonly style="width: 100%; padding: 0.75rem; margin: 0.5rem 0; font-size: 0.875rem;
+                                 height: 100px; resize: none; background: var(--bg-primary);
+                                 color: var(--text-primary); border: 1px solid var(--border);
+                                 border-radius: 8px; word-break: break-all;"></textarea>
                     <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
                         <button class="copy-btn" onclick="copyNostrConnectURI()">Copy Connection String</button>
-                        <button class="copy-btn" onclick="toggleQRDisplay()" style="background: var(--bg-secondary);">Show QR Code</button>
+                        <button class="copy-btn" onclick="toggleQRDisplay()" style="background: var(--bg-secondary);">
+                            Show QR Code
+                        </button>
                     </div>
-                    <div id="connectStringStatus" style="display: none; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--accent); border-radius: 8px; margin: 1rem 0; color: var(--accent); text-align: center;">
+                    <div id="connectStringStatus" style="display: none; padding: 0.75rem;
+                                                    background: var(--bg-primary);
+                                                    border: 1px solid var(--accent);
+                                                    border-radius: 8px; margin: 1rem 0;
+                                                    color: var(--accent); text-align: center;">
                         <div class="spinner"></div>
                         <span>Listening for connection...</span>
                     </div>
                     <div id="qrCodeSection" style="display: none; margin: 1rem 0;">
-                        <div id="nostrConnectQR" style="background: white; padding: 1rem; border-radius: 8px; display: inline-block;"></div>
-                        <div id="qrConnectionStatus" style="display: none; padding: 0.75rem; background: var(--bg-primary); border: 1px solid var(--accent); border-radius: 8px; margin-top: 1rem; color: var(--accent); text-align: center;">
+                        <div id="nostrConnectQR" style="background: white; padding: 1rem;
+                                                     border-radius: 8px; display: inline-block;"></div>
+                        <div id="qrConnectionStatus" style="display: none; padding: 0.75rem;
+                                                        background: var(--bg-primary);
+                                                        border: 1px solid var(--accent);
+                                                        border-radius: 8px; margin-top: 1rem;
+                                                        color: var(--accent); text-align: center;">
                             <div class="spinner"></div>
                             <span>Listening for connection...</span>
                         </div>
                     </div>
                 </div>
+
                 <div class="divider"><span>OR</span></div>
+
                 <div class="connect-step">
                     <h3>Option 2: Paste a bunker URL</h3>
-                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">If you already have a bunker:// URL from a remote signer</p>
-                    <input type="text" id="bunkerUrl" placeholder="bunker://..." class="form-control">
-                    <button class="upload-btn" onclick="connectWithBunker()" style="margin-top: 1rem;">Connect with Bunker</button>
-                </div>
-                <div class="connect-step" style="background: var(--bg-primary); padding: 1rem; border-radius: 8px; margin-top: 1rem;">
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin: 0;">
-                        <strong>Popular NIP-46 signers:</strong><br>
-                        • <a href="https://nsec.app" target="_blank" style="color: var(--accent);">nsec.app</a> - Web-based signer<br>
-                        • <a href="https://github.com/greenart7c3/Amber" target="_blank" style="color: var(--accent);">Amber</a> - Android app<br>
-                        • <a href="https://highlighter.com/settings/keys/device" target="_blank" style="color: var(--accent);">Highlighter</a> - Built-in signer
+                    <p style="margin-bottom: 0.5rem; color: var(--text-secondary);">
+                        If you already have a bunker:// URL from a remote signer
                     </p>
+                    <input type="text" id="bunkerUrl" placeholder="bunker://..." class="form-control">
+                    <button class="upload-btn" onclick="connectWithBunker()" style="margin-top: 1rem;">
+                        Connect with Bunker
+                    </button>
                 </div>
             </div>
         </div>
@@ -410,12 +577,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Login with Private Key</h2>
-                <button class="close-modal" onclick="hidePrivateKeyModal()">&times;</button>
+                <button class="close-modal" onclick="hidePrivateKeyModal()" aria-label="Close">&times;</button>
             </div>
+
             <div class="key-warning">
                 <h3>⚠️ Security Warning</h3>
-                <p>Your private key will be stored locally in your browser. For better security, consider using a browser extension or Nostr Connect instead.</p>
+                <p>Your private key will be stored locally in your browser. For better security, consider using a
+                    browser extension or Nostr Connect instead.</p>
             </div>
+
             <div class="form-group">
                 <label>Private Key (nsec or hex)</label>
                 <input type="password" id="privateKeyInput" placeholder="nsec1..." class="form-control">
@@ -424,57 +594,83 @@
                     <label for="showKey">Show key</label>
                 </div>
             </div>
-            <button class="upload-btn" onclick="loginWithPrivateKey()" style="margin-top: 1rem;">Login</button>
-        </div>
-    </div>
 
-    <!-- Read-Only Modal -->
-    <div class="modal" id="readOnlyModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Read-Only Access</h2>
-                <button class="close-modal" onclick="hideReadOnlyModal()">&times;</button>
-            </div>
-            <div class="form-group">
-                <label>Public Key (npub or hex)</label>
-                <input type="text" id="publicKeyInput" placeholder="npub1..." class="form-control">
-                <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">You can view content but won't be able to post, like, or comment</p>
-            </div>
-            <button class="upload-btn" onclick="loginReadOnly()" style="margin-top: 1rem;">Continue</button>
+            <button class="upload-btn" onclick="loginWithPrivateKey()" style="margin-top: 1rem;">
+                Login
+            </button>
         </div>
     </div>
 
     <!-- Signup Modal -->
     <div class="modal" id="signupModal">
-        <div class="modal-content">
+        <div class="modal-content signup-modal-content">
             <div class="modal-header">
                 <h2>Create Nostr Account</h2>
-                <button class="close-modal" onclick="hideSignupModal()">&times;</button>
+                <button class="close-modal" onclick="hideSignupModal()" aria-label="Close">&times;</button>
             </div>
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text" id="signupUsername" placeholder="Choose a username" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>About (optional)</label>
-                <textarea id="signupAbout" placeholder="Tell us about yourself" class="form-control" rows="3"></textarea>
-            </div>
-            <div class="profile-preview">
-                <div class="profile-preview-avatar" id="previewAvatar"><span id="avatarInitial">?</span></div>
-                <div class="profile-preview-info">
-                    <h3 id="previewName">Your Username</h3>
-                    <p id="previewAbout">Your bio will appear here</p>
+
+            <div class="nostr-explainer" id="nostrExplainer">
+                <div class="explainer-section">
+                    <h3>What is Nostr?</h3>
+                    <p>Nostr is a decentralized social protocol that gives you ownership of your identity and content. Unlike traditional platforms, no company can ban you, censor your content, or shut down your account.</p>
                 </div>
+
+                <button class="upload-btn" onclick="showSignupForm()" style="margin-top: 1rem; width: 100%;">
+                    Got it, let's create my account
+                </button>
             </div>
-            <button class="upload-btn" onclick="createAccount()" style="margin-top: 1rem;">Create Account</button>
-            <div class="key-warning" style="margin-top: 1rem; display: none;" id="signupSuccess">
-                <h3>✅ Account Created!</h3>
-                <p>Your private key (save this securely):</p>
-                <div style="background: var(--bg-primary); padding: 0.5rem; border-radius: 4px; margin: 0.5rem 0; word-break: break-all; font-family: monospace;">
-                    <span id="generatedNsec"></span>
+
+            <div class="signup-form-section" id="signupFormSection" style="display: none;">
+                <div class="form-group">
+                    <label>Username <span class="required-indicator">*</span></label>
+                    <input type="text" id="signupUsername" placeholder="Choose a display name" class="form-control">
                 </div>
-                <button class="copy-btn" onclick="copyGeneratedKey()">Copy Key</button>
-                <p style="margin-top: 0.5rem; font-size: 0.875rem;">⚠️ Save this key! You'll need it to login. We recommend using a password manager.</p>
+
+                <div class="form-group">
+                    <label>About (optional)</label>
+                    <textarea id="signupAbout" placeholder="Tell others about yourself" class="form-control" rows="2"></textarea>
+                </div>
+
+                <div class="profile-preview">
+                    <div class="profile-preview-avatar" id="previewAvatar">
+                        <span id="avatarInitial">?</span>
+                    </div>
+                    <div class="profile-preview-info">
+                        <h3 id="previewName">Your Username</h3>
+                        <p id="previewAbout">Your bio will appear here</p>
+                    </div>
+                </div>
+
+                <button class="upload-btn" onclick="createAccount()" id="createAccountBtn" style="margin-top: 1rem; width: 100%;">
+                    Create Account
+                </button>
+            </div>
+
+            <div class="signup-success-section" style="display: none;" id="signupSuccess">
+                <div class="success-header">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="var(--success-color)">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <h3>Account Created Successfully!</h3>
+                </div>
+
+                <div class="key-section">
+                    <h4>Your Private Key (nsec)</h4>
+                    <p class="key-warning-text">This is the ONLY way to access your account. Save it somewhere safe!</p>
+                    <div class="nsec-display">
+                        <code id="generatedNsec"></code>
+                    </div>
+                    <button class="copy-btn" onclick="copyGeneratedKey()" id="copyNsecBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                        </svg>
+                        <span>Copy Private Key</span>
+                    </button>
+                </div>
+
+                <button class="upload-btn" onclick="finishAccountCreation()" style="margin-top: 1rem; width: 100%;">
+                    Continue to JOBTUBE.FUN
+                </button>
             </div>
         </div>
     </div>
@@ -484,7 +680,7 @@
         <div class="notifications-modal-content">
             <div class="modal-header">
                 <h2>Notifications</h2>
-                <button class="close-modal" onclick="hideNotificationsModal()">&times;</button>
+                <button class="close-modal" onclick="hideNotificationsModal()" aria-label="Close">&times;</button>
             </div>
             <div class="notifications-list" id="notificationsList">
                 <div class="spinner"></div>
@@ -497,30 +693,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Settings</h2>
-                <button class="close-modal" onclick="hideSettingsModal()">&times;</button>
+                <button class="close-modal" onclick="hideSettingsModal()" aria-label="Close">&times;</button>
             </div>
+
             <form class="upload-form" id="settingsForm">
                 <div class="form-group">
-                    <label>Relay Settings</label>
                     <div class="checkbox-group">
                         <input type="checkbox" id="useWotRelays" onchange="toggleWotRelays()">
                         <label for="useWotRelays">Use Web of Trust Relays</label>
                     </div>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">Connect to Web of Trust relays for better spam filtering</p>
                 </div>
-                <div class="form-group">
-                    <label>Blossom Server Settings</label>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="usePremiumBlossom" onchange="togglePremiumBlossom()">
-                        <label for="usePremiumBlossom">Premium Blossom Server (NostrMedia.com)</label>
-                    </div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">Use NostrMedia.com if you are a subscribed user</p>
-                </div>
-                <div class="form-group">
-                    <label>Custom Blossom Servers</label>
-                    <textarea id="customBlossomServers" placeholder="Enter server URLs separated by commas&#10;Example: https://blossom.example.com, https://another.example.com" rows="3"></textarea>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">Add your own Blossom servers (comma-separated)</p>
-                </div>
+
                 <div class="form-group">
                     <div class="checkbox-group">
                         <input type="checkbox" id="saveToNostr" checked>
@@ -528,6 +712,7 @@
                     </div>
                     <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">Sync settings across all JOBTUBE.FUN instances</p>
                 </div>
+
                 <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
                     <button type="button" class="upload-btn" style="flex: 1;" onclick="saveSettings()">Save Settings</button>
                     <button type="button" class="upload-btn" style="background: var(--bg-primary); color: var(--text-primary); border: 1px solid var(--border);" onclick="resetSettings()">Reset to Defaults</button>
@@ -536,93 +721,18 @@
         </div>
     </div>
 
-    <!-- Upload Modal -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Upload Video</h2>
-                <button class="close-modal" onclick="hideUploadModal()">&times;</button>
-            </div>
-            <form class="upload-form" id="uploadForm">
-                <div class="form-group">
-                    <label>Video File</label>
-                    <div class="file-upload" id="fileUpload" onclick="document.getElementById('videoFile').click()">
-                        📁<p>Click to select video or drag and drop</p>
-                        <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.5rem;">MP4, AVI, MOV, etc (max 5GB input, will compress to <100MB)</p>
-                    </div>
-                    <input type="file" id="videoFile" accept="video/*" style="display: none;" onchange="handleFileSelect(event)">
-                </div>
-
-                <!-- Video Compression Options -->
-                <div class="form-group" id="compressionOptions" style="display: none;">
-                    <label>Compression</label>
-                    <div class="compression-settings">
-                        <div class="compression-toggle">
-                            <input type="checkbox" id="enableCompression" checked>
-                            <label for="enableCompression">Enable compression (required for files > 100MB)</label>
-                        </div>
-                        <div class="compression-quality" id="compressionQuality">
-                            <label>Quality:</label>
-                            <select id="compressionQualitySelect">
-                                <option value="high">High (larger file, better quality)</option>
-                                <option value="medium" selected>Medium (balanced)</option>
-                                <option value="low">Low (smaller file, lower quality)</option>
-                                <option value="ultra-low">Ultra Low (smallest file, minimal quality)</option>
-                            </select>
-                        </div>
-                        <div class="compression-info" id="compressionInfo"></div>
-                        <div class="compression-warning" id="compressionWarning" style="display: none; color: var(--error-color); margin-top: 0.5rem; font-size: 0.875rem;"></div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Title</label>
-                    <input type="text" id="videoTitle" placeholder="Enter video title" required>
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea id="videoDescription" placeholder="Tell viewers about your video" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Tags (comma separated)</label>
-                    <input type="text" id="videoTags" placeholder="warehouse, forklift, training" required>
-                </div>
-                <div class="form-group">
-                    <label>Thumbnail</label>
-                    <input type="file" id="thumbnailFile" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="nsfwCheckbox">
-                        <label for="nsfwCheckbox">Mark as NSFW (18+)</label>
-                    </div>
-                    <p style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem;">Content containing adult material should be marked as NSFW</p>
-                </div>
-
-                <!-- Upload Progress Section -->
-                <div class="upload-progress" id="uploadProgress">
-                    <p id="uploadStatus">Preparing...</p>
-                    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
-                    <div id="compressionProgress" style="display: none;">
-                        <p id="compressionStatus">Compressing video...</p>
-                        <div class="compression-stats" id="compressionStats"></div>
-                    </div>
-                    <div class="server-status" id="serverStatus"></div>
-                </div>
-                <button type="submit" class="upload-btn" style="margin-top: 1rem;">Publish Video</button>
-            </form>
-        </div>
-    </div>
-
     <!-- NSFW Warning Modal -->
     <div class="nsfw-modal" id="nsfwModal">
         <div class="nsfw-modal-content">
             <h2>Age Verification Required</h2>
-            <p>This content is marked as NSFW (Not Safe For Work) and may contain adult material. You must be 18 years or older to view this content.</p>
+            <p>This content is marked as NSFW (Not Safe For Work) and may contain adult material. You must be 18 years
+                or older to view this content.</p>
+
             <div class="nsfw-modal-buttons">
                 <button class="cancel" onclick="cancelNSFW()">Cancel</button>
                 <button class="confirm" onclick="confirmNSFW()">I am 18+ years old</button>
             </div>
+
             <div class="nsfw-remember">
                 <div class="checkbox-group">
                     <input type="checkbox" id="rememberNSFW">
@@ -645,6 +755,7 @@
                 <li>Potentially harmful or illegal content</li>
             </ul>
             <p>Proceed with caution.</p>
+
             <div class="ratioed-modal-buttons">
                 <button class="cancel" onclick="cancelRatioed()">Go Back</button>
                 <button class="proceed" onclick="proceedRatioed()">View Anyway</button>
@@ -657,7 +768,7 @@
         <div class="share-modal-content">
             <div class="modal-header">
                 <h2>Share Video</h2>
-                <button class="close-modal" onclick="hideShareModal()">&times;</button>
+                <button class="close-modal" onclick="hideShareModal()" aria-label="Close">&times;</button>
             </div>
             <p style="margin-bottom: 1rem;">Share this video with others:</p>
             <div class="share-url">
@@ -669,10 +780,9 @@
     </div>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/nostr-tools@2.10.4/lib/nostr.bundle.min.js"></script>
+    <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/webln@0.3.2/dist/webln.min.js"></script>
     <script src="app.js"></script>
 </body>
-
 </html>
