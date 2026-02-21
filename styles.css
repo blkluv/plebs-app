@@ -10280,3 +10280,107 @@ body:has(.live-chat-sidebar) .relay-status-dropdown {
         color: white !important;
     }
 }
+/* ===== UPLOAD FORM TEXT COLOR FIX ===== */
+/* Fix input text color */
+.modal input,
+.modal textarea,
+.modal .form-control,
+#videoTitle,
+#videoDescription,
+#videoTags,
+input[type="text"],
+input[type="url"],
+input[type="number"],
+textarea {
+    color: #ffffff !important;
+    background-color: #333333 !important;
+    border: 1px solid #555 !important;
+    caret-color: var(--accent) !important; /* Makes cursor visible */
+}
+
+/* Fix placeholder text */
+.modal input::placeholder,
+.modal textarea::placeholder,
+#videoTitle::placeholder,
+#videoDescription::placeholder,
+#videoTags::placeholder {
+    color: #999999 !important;
+    opacity: 1 !important;
+}
+
+/* Fix labels */
+.modal label,
+.form-group label {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.25rem !important;
+}
+
+/* Fix the "Blossom Server" text */
+.modal .form-group p,
+.modal .form-hint,
+.modal .text-secondary,
+.modal .server-status {
+    color: #cccccc !important;
+}
+
+/* Fix the remove button text */
+.modal .preview-delete-btn,
+.modal .remove-btn,
+.modal .delete-btn {
+    color: white !important;
+    background: rgba(244, 67, 54, 0.8) !important;
+}
+
+.modal .preview-delete-btn:hover {
+    background: #f44336 !important;
+}
+
+/* Fix the "Save as Draft" and "Generating preview..." text */
+.modal .btn-secondary,
+.modal .upload-btn,
+#saveDraftButton,
+.modal button:not(.close-modal) {
+    color: white !important;
+}
+
+/* Make sure the "Generating preview..." is visible */
+.modal .upload-item-status.processing,
+.modal .upload-item-status,
+#compressionStatus {
+    color: var(--accent) !important;
+    font-weight: 500 !important;
+}
+
+/* Fix checkbox label */
+.modal .checkbox-group label {
+    color: #ffffff !important;
+}
+
+/* Fix the NSFW description text */
+.modal .form-group p {
+    color: #bbbbbb !important;
+    font-size: 0.875rem !important;
+}
+
+/* Fix the server URLs text */
+.modal .server-status .server {
+    color: #dddddd !important;
+}
+
+/* Ensure all modal text is visible */
+.modal-content,
+.modal-header h2,
+.modal-header button {
+    color: #ffffff !important;
+}
+
+/* Fix close button */
+.modal .close-modal {
+    color: #ffffff !important;
+}
+
+/* Fix any remaining black text */
+.modal *:not(button):not(.btn):not([type="button"]) {
+    color: #ffffff !important;
+}
