@@ -10384,3 +10384,25 @@ textarea {
 .modal *:not(button):not(.btn):not([type="button"]) {
     color: #ffffff !important;
 }
+/* ===== REMOVE COMMUNITY WARNING OVERLAY ===== */
+.ratioed-modal,
+.ratioed-modal.active,
+#ratioedModal,
+.ratioed-modal-content,
+.video-thumbnail.ratioed img,
+.video-thumbnail.ratioed video,
+.ratioed-badge,
+.ratioed-overlay {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    z-index: -9999 !important;
+}
+
+/* Remove blur from flagged videos */
+.video-thumbnail.ratioed img,
+.video-thumbnail.ratioed video {
+    filter: none !important;
+    -webkit-filter: none !important;
+}
