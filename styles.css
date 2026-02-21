@@ -10057,3 +10057,163 @@ body:has(.live-chat-sidebar) .relay-status-dropdown {
         font-size: 0.75rem;
     }
 }
+/* ===== MOBILE BUTTON TEXT COLOR FIX ===== */
+@media (max-width: 768px) {
+    /* Fix all header buttons */
+    .menu-toggle,
+    .theme-toggle,
+    .notification-toggle,
+    .upload-btn,
+    .create-btn,
+    .user-btn,
+    .search-bar button {
+        color: white !important;
+        background-color: var(--bg-secondary) !important;
+    }
+    
+    /* Upload button specific - use accent color */
+    .upload-btn,
+    .create-btn {
+        background-color: var(--accent) !important;
+        color: white !important;
+        border: none !important;
+    }
+    
+    /* Fix SVG icons in buttons */
+    .menu-toggle svg,
+    .theme-toggle svg,
+    .notification-toggle svg,
+    .upload-btn svg,
+    .create-btn svg,
+    .user-btn svg,
+    .search-bar button svg {
+        color: white !important;
+        fill: white !important;
+        stroke: none !important;
+    }
+    
+    /* Fix any icon-only buttons */
+    button svg:only-child {
+        color: white !important;
+    }
+    
+    /* Fix sidebar buttons/links when expanded on mobile */
+    .sidebar.active .sidebar-item {
+        color: var(--text-primary) !important;
+    }
+    
+    .sidebar.active .sidebar-item svg {
+        color: var(--text-primary) !important;
+        fill: currentColor !important;
+    }
+    
+    /* Fix any dropdown buttons */
+    .user-dropdown button {
+        color: var(--text-primary) !important;
+    }
+    
+    .user-dropdown button svg {
+        color: var(--text-primary) !important;
+    }
+    
+    /* Fix modal buttons */
+    .modal .upload-btn,
+    .modal .copy-btn,
+    .modal .action-btn {
+        color: white !important;
+    }
+    
+    .modal .cancel,
+    .modal .close-modal {
+        color: var(--text-primary) !important;
+    }
+    
+    /* Fix any links that look like buttons */
+    a.sidebar-item {
+        color: var(--text-primary) !important;
+    }
+    
+    /* Fix the search bar button specifically */
+    .search-bar button {
+        background: var(--bg-secondary) !important;
+        border-color: var(--border) !important;
+        color: white !important;
+    }
+    
+    /* Ensure icons in search button are visible */
+    .search-bar button svg {
+        color: white !important;
+        fill: white !important;
+    }
+    
+    /* Fix the "Create" button text */
+    .upload-btn .btn-text,
+    .create-btn .btn-text {
+        color: white !important;
+    }
+    
+    /* Fix any secondary buttons */
+    .btn-secondary,
+    .action-btn:not(.upload-btn):not(.create-btn) {
+        color: var(--text-primary) !important;
+        background: var(--bg-secondary) !important;
+    }
+    
+    .btn-secondary svg,
+    .action-btn:not(.upload-btn):not(.create-btn) svg {
+        color: var(--text-primary) !important;
+        fill: currentColor !important;
+    }
+    
+    /* Fix active states */
+    .action-btn.active {
+        color: white !important;
+    }
+    
+    .action-btn.active svg {
+        color: white !important;
+        fill: white !important;
+    }
+    
+    /* Fix any white-on-white issues specifically */
+    button, 
+    .button,
+    [role="button"] {
+        -webkit-text-fill-color: currentColor;
+    }
+}
+
+/* Extra small devices fix */
+@media (max-width: 480px) {
+    /* Ensure all header buttons are visible */
+    .header-actions button {
+        color: white !important;
+    }
+    
+    /* Fix any potential inherited colors */
+    .header-actions button * {
+        color: inherit !important;
+    }
+}
+
+/* Dark theme specific overrides - ensure all text is white on dark backgrounds */
+[data-theme="dark"] button:not(.action-btn.active):not(.upload-btn) {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] button svg {
+    color: var(--text-primary);
+    fill: currentColor;
+}
+
+/* Light mode adjustments - keep consistent */
+[data-theme="light"] .upload-btn,
+[data-theme="light"] .create-btn {
+    color: white !important;
+}
+
+[data-theme="light"] .upload-btn svg,
+[data-theme="light"] .create-btn svg {
+    color: white !important;
+    fill: white !important;
+}
