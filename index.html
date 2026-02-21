@@ -753,5 +753,65 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://unpkg.com/webln@0.3.2/dist/webln.min.js"></script>
     <script src="app.js"></script>
+    
+    <!-- UPDATED: Force disable community warning completely -->
+    <script>
+        // Run immediately before anything else
+        (function() {
+            // Override global functions
+            window.showRatioedModal = function() { return false; };
+            window.cancelRatioed = function() { return false; };
+            window.proceedRatioed = function() { return false; };
+            
+            // Remove any existing ratioed elements
+            function removeWarnings() {
+                // Remove warning badges
+                document.querySelectorAll('.ratioed-badge, .community-warning, [class*="warning"]').forEach(el => {
+                    el.remove();
+                });
+                
+                // Remove blur from thumbnails
+                document.querySelectorAll('.video-thumbnail.ratioed, .ratioed img, .ratioed video').forEach(el => {
+                    el.classList.remove('ratioed');
+                    el.style.filter = 'none';
+                    el.style.webkitFilter = 'none';
+                });
+                
+                // Hide any warning modals
+                const modal = document.getElementById('ratioedModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    modal.classList.remove('active');
+                }
+            }
+            
+            // Run immediately
+            removeWarnings();
+            
+            // Run after DOM loads
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', removeWarnings);
+            } else {
+                removeWarnings();
+            }
+            
+            // Run repeatedly to catch dynamically loaded content
+            setInterval(removeWarnings, 50);
+            
+            // Also run on URL/hash changes
+            window.addEventListener('popstate', removeWarnings);
+            window.addEventListener('pushstate', removeWarnings);
+            window.addEventListener('replacestate', removeWarnings);
+            
+            // Override any React/Vue updates
+            const observer = new MutationObserver(removeWarnings);
+            observer.observe(document.body, { 
+                childList: true, 
+                subtree: true,
+                attributes: true,
+                attributeFilter: ['class']
+            });
+        })();
+    </script>
 </body>
 </html>

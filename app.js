@@ -6,6 +6,34 @@
 
 // ===== INTERNATIONALIZATION (i18n) SYSTEM =====
 // Supported languages with native names
+// ===== DISABLE COMMUNITY WARNING OVERLAY =====
+// Override the function that shows the warning
+window.showRatioedModal = function() {
+    console.log('Community warning disabled');
+    // Do nothing - bypass the warning
+    return false;
+};
+
+// Override the ratioed check function
+window.checkRatioedContent = function(video) {
+    // Always return false - never show ratioed warning
+    return false;
+};
+
+// Disable any existing event listeners for ratioed content
+document.addEventListener('DOMContentLoaded', function() {
+    // Remove any ratioed classes from thumbnails
+    document.querySelectorAll('.video-thumbnail.ratioed').forEach(el => {
+        el.classList.remove('ratioed');
+    });
+    
+    // Hide the modal if it exists
+    const modal = document.getElementById('ratioedModal');
+    if (modal) {
+        modal.style.display = 'none';
+        modal.classList.remove('active');
+    }
+});
 const SUPPORTED_LANGUAGES = {
     en: 'English',
     es: 'Español',

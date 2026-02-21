@@ -10384,25 +10384,46 @@ textarea {
 .modal *:not(button):not(.btn):not([type="button"]) {
     color: #ffffff !important;
 }
-/* ===== REMOVE COMMUNITY WARNING OVERLAY ===== */
+/* ===== COMPLETELY REMOVE COMMUNITY WARNING ===== */
 .ratioed-modal,
-.ratioed-modal.active,
 #ratioedModal,
-.ratioed-modal-content,
-.video-thumbnail.ratioed img,
-.video-thumbnail.ratioed video,
 .ratioed-badge,
-.ratioed-overlay {
+.community-warning,
+[class*="ratioed"],
+[class*="warning"] {
     display: none !important;
-    visibility: hidden !important;
     opacity: 0 !important;
+    visibility: hidden !important;
     pointer-events: none !important;
+    position: absolute !important;
     z-index: -9999 !important;
 }
 
-/* Remove blur from flagged videos */
+/* Remove blur from videos */
 .video-thumbnail.ratioed img,
-.video-thumbnail.ratioed video {
+.video-thumbnail.ratioed video,
+.ratioed img,
+.ratioed video,
+img[class*="ratioed"],
+video[class*="ratioed"] {
     filter: none !important;
     -webkit-filter: none !important;
+    backdrop-filter: none !important;
+}
+
+/* Force remove any overlay */
+.ratioed-overlay,
+.warning-overlay {
+    display: none !important;
+}
+
+/* Make videos clickable */
+.video-thumbnail.ratioed {
+    cursor: pointer !important;
+}
+
+/* Remove any text warnings */
+.ratioed-badge + *,
+.community-warning + * {
+    display: block !important;
 }
