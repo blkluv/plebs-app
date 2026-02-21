@@ -10217,3 +10217,35 @@ body:has(.live-chat-sidebar) .relay-status-dropdown {
     color: white !important;
     fill: white !important;
 }
+/* ===== SMART SIDEBAR WIDTH ===== */
+@media (min-width: 769px) {
+    /* Auto-width based on content, with max limit */
+    .sidebar.expanded {
+        width: auto !important;
+        min-width: 280px !important;
+        max-width: 350px !important;
+    }
+    
+    /* Adjust container dynamically */
+    .container {
+        padding-left: 72px;
+    }
+    
+    /* Get the expanded sidebar width via JS or use this fallback */
+    body:has(.sidebar.expanded) .container {
+        padding-left: 300px; /* Default fallback */
+    }
+    
+    /* Better text handling */
+    .sidebar.expanded .sidebar-label {
+        white-space: normal !important;
+        word-break: break-word !important;
+        max-width: 240px !important;
+    }
+    
+    /* Specific fixes for your problem links */
+    .sidebar.expanded a[href="https://t.me/campcreekmarket"] .sidebar-label {
+        display: inline-block;
+        max-width: 200px;
+    }
+}
